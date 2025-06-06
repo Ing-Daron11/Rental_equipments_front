@@ -1,9 +1,9 @@
-// lib/api/maintenance.ts
-
 import { api } from "../api"
 import type {
   Maintenance,
   SearchMaintenanceDto,
+  CreateMaintenanceDto,
+  UpdateMaintenanceDto,
 } from "@/interfaces/maintenance"
 
 // GET /maintenance - Obtener todos los mantenimientos con paginación opcional
@@ -19,14 +19,14 @@ async function findOne(id: string): Promise<Maintenance> {
 }
 
 // POST /maintenance - Crear un nuevo mantenimiento
-async function create(payload: Partial<Maintenance>): Promise<Maintenance> {
+async function create(payload: CreateMaintenanceDto): Promise<Maintenance> {
   const { data } = await api.post("/maintenance", payload)
   return data
 }
 
 // PUT /maintenance/:id - Actualizar un mantenimiento
-async function update(id: string, payload: Partial<Maintenance>): Promise<Maintenance> {
-  const { data } = await api.put(`/maintenance/${id}`, payload)
+async function update(id: string, payload: UpdateMaintenanceDto): Promise<Maintenance> {
+  const { data } = await api.patch(`/maintenance/${id}`, payload)
   return data
 }
 
@@ -41,18 +41,26 @@ async function search(filters: SearchMaintenanceDto): Promise<Maintenance[]> {
 
   if (filters.term) params.append("term", filters.term)
   if (filters.equipmentId) params.append("equipmentId", filters.equipmentId)
-  if (filters.technicianId) params.append("technicianId", filters.technicianId)
+
+  // ✅ Asegúrate de que el backend espera "technicianId"
+  if ((filters as any).technicianId) {
+    params.append("technicianId", (filters as any).technicianId)
+  }
+
+  // Si el backend usa technician como objeto, cámbialo por esto:
+  // if (filters.technician && filters.technician.id) {
+  //   params.append("technicianId", filters.technician.id)
+  // }
+
   if (filters.status) params.append("status", filters.status)
   if (filters.startDate) params.append("startDate", filters.startDate)
   if (filters.endDate) params.append("endDate", filters.endDate)
   if (filters.limit) params.append("limit", filters.limit.toString())
   if (filters.offset) params.append("offset", filters.offset.toString())
 
-  // ✅ Corregido: usamos /maintenance/search
   const { data } = await api.get(`/maintenance/search?${params.toString()}`)
   return data
 }
-
 
 export const maintenanceAPI = {
   findAll,

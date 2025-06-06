@@ -1,16 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Plus, RefreshCw, AlertCircle } from "lucide-react";
+import { useState } from "react";
 import Link from "next/link";
+import { ArrowLeft, Plus, RefreshCw, AlertCircle } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import Navbar from "@/components/shared/navbar";
 import { useToast } from "@/hooks/use-toast";
 import { useMaintenance } from "@/hooks/use-maintenance";
-import { MaintenanceFiltersComponent } from "@/components/maintenance/maintenance-filters";
-import { MaintenanceSearch } from "@/components/maintenance/maintenance-search";
+// import { MaintenanceFiltersComponent } from "@/components/maintenance/maintenance-filters";
+// import { MaintenanceSearch } from "@/components/maintenance/maintenance-search";
 import { MaintenanceList } from "@/components/maintenance/maintenance-list";
-import type { SearchMaintenanceDto } from "@/interfaces/maintenance";
-import Navbar from "@/components/shared/navbar";
+import { MaintenanceFormModal } from "@/components/maintenance/maintenance-form-modal";
+import { maintenanceAPI } from "@/lib/api/maintenance";
+import type { Maintenance, SearchMaintenanceDto } from "@/interfaces/maintenance";
 
 export default function MaintenancePage() {
   const { toast } = useToast();
@@ -24,40 +27,43 @@ export default function MaintenancePage() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(true); // dummy auth
 
-  const [filters, setFilters] = useState<SearchMaintenanceDto>({
-    technicianId: undefined,
-    equipmentId: undefined,
-    status: "all",
-    search: "",
-    sortBy: "createdAt",
-    sortOrder: "desc",
-  });
+  // const [filters, setFilters] = useState<SearchMaintenanceDto>({
+  //   technicianId: undefined,
+  //   equipmentId: undefined,
+  //   status: "all",
+  //   search: "",
+  //   sortBy: "createdAt",
+  //   sortOrder: "desc",
+  // });
 
-  useEffect(() => {
-    const searchParams: SearchMaintenanceDto = {};
+  const [selectedMaintenance, setSelectedMaintenance] = useState<Maintenance | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
-    if (filters.search) searchParams.search = filters.search;
-    if (filters.status && filters.status !== "all") {
-      searchParams.status = filters.status;
-    }
-    if (filters.equipmentId) searchParams.equipmentId = filters.equipmentId;
-    if (filters.technicianId) searchParams.technicianId = filters.technicianId;
-    if (filters.sortBy) searchParams.sortBy = filters.sortBy;
-    if (filters.sortOrder) searchParams.sortOrder = filters.sortOrder;
+  // useEffect(() => {
+  //   const searchParams: SearchMaintenanceDto = {};
 
-    searchMaintenance(searchParams);
-  }, [filters]);
+  //   if (filters.search) searchParams.search = filters.search;
+  //   if (filters.status && filters.status !== "all") {
+  //     searchParams.status = filters.status;
+  //   }
+  //   if (filters.equipmentId) searchParams.equipmentId = filters.equipmentId;
+  //   if (filters.technicianId) searchParams.technicianId = filters.technicianId;
+  //   if (filters.sortBy) searchParams.sortBy = filters.sortBy;
+  //   if (filters.sortOrder) searchParams.sortOrder = filters.sortOrder;
 
-  const handleClearFilters = () => {
-    setFilters({
-      technicianId: undefined,
-      equipmentId: undefined,
-      status: "all",
-      search: "",
-      sortBy: "createdAt",
-      sortOrder: "desc",
-    });
-  };
+  //   searchMaintenance(searchParams);
+  // }, [filters]);
+
+  // const handleClearFilters = () => {
+  //   setFilters({
+  //     technicianId: undefined,
+  //     equipmentId: undefined,
+  //     status: "all",
+  //     search: "",
+  //     sortBy: "createdAt",
+  //     sortOrder: "desc",
+  //   });
+  // };
 
   const handleRefresh = () => {
     refetch();
@@ -65,6 +71,34 @@ export default function MaintenancePage() {
       title: "Actualizado",
       description: "La lista de mantenimientos ha sido actualizada.",
     });
+  };
+
+  const handleEdit = (maintenance: Maintenance) => {
+    setSelectedMaintenance(maintenance);
+    setShowModal(true);
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await maintenanceAPI.remove(id);
+      toast({
+        title: "Mantenimiento eliminado",
+        description: "El registro fue eliminado exitosamente.",
+      });
+      refetch();
+    } catch (err) {
+      toast({
+        title: "Error al eliminar",
+        description: "No se pudo eliminar el mantenimiento.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleModalClose = () => {
+    setSelectedMaintenance(null);
+    setShowModal(false);
+    refetch(); // actualizar la lista después de editar
   };
 
   if (error) {
@@ -136,7 +170,7 @@ export default function MaintenancePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Filtros */}
-            <div className="lg:col-span-1 space-y-6">
+            {/* <div className="lg:col-span-1 space-y-6">
               <MaintenanceSearch
                 value={filters.search ?? ""}
                 onChange={(search) => setFilters({ ...filters, search })}
@@ -146,15 +180,32 @@ export default function MaintenancePage() {
                 onFiltersChange={setFilters}
                 onClearFilters={handleClearFilters}
               />
-            </div>
+            </div> */}
 
             {/* Lista de mantenimientos */}
-            <div className="lg:col-span-3">
-              <MaintenanceList maintenance={maintenance} loading={loading} />
+            <div className="lg:col-span-4">
+              <MaintenanceList
+                maintenance={maintenance}
+                loading={loading}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modal de edición */}
+      {showModal && selectedMaintenance && (
+        <MaintenanceFormModal
+          open={showModal}
+          onOpenChange={(open) => {
+            setShowModal(open);
+            if (!open) setSelectedMaintenance(null);
+          }}
+          initialData={selectedMaintenance}
+        />
+      )}
     </>
   );
 }
