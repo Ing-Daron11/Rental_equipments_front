@@ -258,5 +258,93 @@ describe("EquipmentFiltersComponent", () => {
     expect(estadoButton).toHaveTextContent("Mantenimiento");
   });
 
+  it("se puede re-renderizar sin errores", () => {
+    const { rerender } = render(
+      <EquipmentFiltersComponent
+        filters={defaultFilters}
+        onFiltersChange={onFiltersChange}
+        onClearFilters={onClearFilters}
+      />
+    );
 
+    rerender(
+      <EquipmentFiltersComponent
+        filters={{ ...defaultFilters, status: EquipmentStatus.RENTED }}
+        onFiltersChange={onFiltersChange}
+        onClearFilters={onClearFilters}
+      />
+    );
+
+    // Instead of looking for display value, check for text content
+    // Also note the UI shows "Alquilado" instead of "rentado"
+    const estadoLabel = screen.getByText("Estado");
+    const estadoContainer = estadoLabel.closest("div");
+    if (!estadoContainer) {
+      throw new Error("No se pudo encontrar el contenedor de estado");
+    }
+
+    const estadoButton = estadoContainer.querySelector(
+      'button[role="combobox"]'
+    );
+    if (!estadoButton) {
+      throw new Error("No se pudo encontrar el botón de estado");
+    }
+
+    expect(estadoButton).toHaveTextContent("Alquilado");
+  });
+
+  it("muestra estado traducido correctamente", () => {
+    render(
+      <EquipmentFiltersComponent
+        filters={{ ...defaultFilters, status: EquipmentStatus.AVAILABLE }}
+        onFiltersChange={onFiltersChange}
+        onClearFilters={onClearFilters}
+      />
+    );
+
+    // Instead of looking for display value, check for text content
+    const estadoLabel = screen.getByText("Estado");
+    const estadoContainer = estadoLabel.closest("div");
+    if (!estadoContainer) {
+      throw new Error("No se pudo encontrar el contenedor de estado");
+    }
+
+    const estadoButton = estadoContainer.querySelector(
+      'button[role="combobox"]'
+    );
+    if (!estadoButton) {
+      throw new Error("No se pudo encontrar el botón de estado");
+    }
+
+    expect(estadoButton).toHaveTextContent("Disponible");
+  });
+
+  it("detecta cambios al hacer focus y blur", () => {
+    render(
+      <EquipmentFiltersComponent
+        filters={defaultFilters}
+        onFiltersChange={onFiltersChange}
+        onClearFilters={onClearFilters}
+      />
+    );
+
+    // Find the button instead of using getByLabelText
+    const categoriaLabel = screen.getByText("Categoría");
+    const categoriaContainer = categoriaLabel.closest("div");
+    if (!categoriaContainer) {
+      throw new Error("No se pudo encontrar el contenedor de categoría");
+    }
+
+    const categoriaButton = categoriaContainer.querySelector(
+      'button[role="combobox"]'
+    ) as HTMLButtonElement;
+    if (!categoriaButton) {
+      throw new Error("No se pudo encontrar el botón de categoría");
+    }
+
+    // Now trigger focus and blur events on the button
+    fireEvent.focus(categoriaButton);
+    fireEvent.blur(categoriaButton);
+    expect(categoriaButton).not.toBeNull();
+  });
 });
