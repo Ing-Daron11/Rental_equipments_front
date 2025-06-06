@@ -35,7 +35,7 @@ export function EquipmentDetailsModal({ equipment, isOpen, onClose, onEdit, onDe
       <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border shadow-2xl">
         <CardHeader className="flex flex-row items-center justify-between border-b">
           <CardTitle className="text-xl font-semibold">Detalles del Equipo</CardTitle>
-          <Button variant="ghost" size="icon" onClick={onClose} className="hover:bg-gray-100 dark:hover:bg-slate-800">
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Cerrar" className="hover:bg-gray-100 dark:hover:bg-slate-800">
             <X className="w-4 h-4" />
           </Button>
         </CardHeader>
