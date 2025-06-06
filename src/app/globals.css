@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #040b2a; /* slate-950 */
+    --foreground: #ededed;
+  }
+}
+
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn-melo {
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, #2563eb 0%, #0ea5e9 100%);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-melo:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 6px 24px 0 rgba(37,99,235,0.15);
+  background: linear-gradient(90deg, #0ea5e9 0%, #2563eb 100%);
+}
+
+.btn-melo:hover svg {
+  transform: translateX(4px);
+}
+
+.navbar-btn {
+  background: linear-gradient(90deg, #2563eb 0%, #0ea5e9 100%);
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  margin: 0 0.25rem;
+  transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+  box-shadow: 0 2px 8px 0 rgba(37,99,235,0.08);
+  border: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.navbar-btn:hover,
+.navbar-btn:focus {
+  background: linear-gradient(90deg, #3d1fc3 0%, #4dc5e3 100%);
+  transform: scale(1.07) translateY(-2px);
+  box-shadow: 0 6px 24px 0 rgba(37,99,235,0.18);
+  color: #9cb7ee !important;
+}
+
+.navbar-btn-login {
+  background: linear-gradient(90deg, #fff 0%, #e0e7ff 100%);
+  color: #2563eb !important;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  border: 2px solid #2563eb;
+  margin: 0 0.25rem;
+  transition: transform 0.18s, box-shadow 0.18s, background 0.18s, color 0.18s;
+  box-shadow: 0 2px 8px 0 rgba(37,99,235,0.08);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.navbar-btn-login:hover,
+.navbar-btn-login:focus {
+  background: linear-gradient(90deg, #2563eb 0%, #0ea5e9 100%);
+  color: #fff !important;
+  transform: scale(1.07) translateY(-2px);
+  box-shadow: 0 6px 24px 0 rgba(37,99,235,0.18);
+}
