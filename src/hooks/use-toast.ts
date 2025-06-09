@@ -186,3 +186,5 @@ function addToRemoveQueue(toastId: string) {
 }
 
 export { useToast, toast }
+// Solo para testing
+export const __test = { listeners, memoryState, dispatch, addToRemoveQueue }

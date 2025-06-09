@@ -100,8 +100,9 @@ export default function MaintenanceEditPage() {
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Descripción</label>
+          <label className="block mb-1 font-medium" htmlFor="descripcion-mantenimiento">Descripción</label>
           <textarea
+            id="descripcion-mantenimiento"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="w-full border p-2 rounded"

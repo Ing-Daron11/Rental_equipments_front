@@ -11,7 +11,7 @@ export const reservationsAPI = {
   // Libera el equipo: desvincula usuario y pone el equipo como disponible
   async release(equipmentId: string) {
     return api.patch(`/equipment/${equipmentId}/release`);
-    // El backend debe poner user: null y status: "available"
+    
   },
 
 };
