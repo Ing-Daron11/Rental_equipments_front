@@ -12,7 +12,11 @@ module.exports = {
     "^@/(.*)$": "<rootDir>/src/$1"
   },
   collectCoverageFrom: [
-    "src/**/*.{ts,tsx}", 
-    "!src/**/*.d.ts", 
-  ],
+  "src/**/*.{ts,tsx}",
+  "!src/**/*.d.ts",
+  "!src/app/**/*.tsx",
+  "!src/interfaces/**/*.ts",     
+  "!src/**/mocks/**",            
+  "!src/setupTests.ts",         
+],
 };
