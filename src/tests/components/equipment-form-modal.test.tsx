@@ -7,6 +7,7 @@ import {
   Equipment,
 } from "@/interfaces/equipment";
 
+
 const baseProps = {
   isOpen: true,
   onClose: jest.fn(),

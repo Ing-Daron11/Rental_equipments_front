@@ -13,6 +13,6 @@ module.exports = {
   },
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}", 
-    "!src/**/*.d.ts",     
+    "!src/**/*.d.ts", 
   ],
 };
