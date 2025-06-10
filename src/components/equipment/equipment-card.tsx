@@ -141,7 +141,7 @@ export function EquipmentCard({
               size="sm"
               onClick={handleRent}
               disabled={!isAvailable}
-              className="flex-1 transition-all duration-200 hover:scale-105 hover:shadow-md disabled:hover:scale-100"
+              className="flex-1 transition-all duration-200 hover:scale-105 hover:shadow-md disabled:hover:scale-100 w-full"
             >
               <Calendar className="w-4 h-4 mr-2" />
               {isAvailable ? "Alquilar" : "No disponible"}
