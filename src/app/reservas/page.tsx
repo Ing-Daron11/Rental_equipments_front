@@ -2,7 +2,6 @@
 
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Navbar from "@/components/shared/navbar";
-import { Toaster } from "@/components/toaster";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
@@ -69,7 +68,6 @@ export default function ReservasPage() {
     <ProtectedRoute>
       <>
         <Navbar isAuthenticated={isAuthenticated} />
-        <Toaster />
         <div className="min-h-screen pt-16 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <h1 className="text-3xl font-bold mb-6 text-foreground">Tus Reservas</h1>
