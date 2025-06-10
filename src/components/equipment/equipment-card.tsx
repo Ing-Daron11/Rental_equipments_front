@@ -132,18 +132,21 @@ export function EquipmentCard({
             variant="outline"
             size="sm"
             onClick={() => onViewDetails(equipment.id)}
-            className="w-full sm:w-auto flex-1 transition-all duration-200 hover:scale-105 hover:shadow-md"
+            className="flex-1"
             name="view-details-button"
+            data-testid={`view-details-${equipment.id}`}
           >
             <Eye className="w-4 h-4 mr-2" />
             Ver detalles
           </Button>
+
           {onRent && (
             <Button
               size="sm"
               onClick={handleRent}
               disabled={!isAvailable}
-              className="w-full sm:w-auto flex-1 transition-all duration-200 hover:scale-105 hover:shadow-md disabled:hover:scale-100"
+              className="flex-1"
+              data-testid={`rent-button-${equipment.id}`}
             >
               <Calendar className="w-4 h-4 mr-2" />
               {isAvailable ? "Alquilar" : "No disponible"}
