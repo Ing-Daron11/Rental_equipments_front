@@ -40,7 +40,7 @@ export function EquipmentFiltersComponent({ filters, onFiltersChange, onClearFil
               value={filters.category}
               onValueChange={(value) => onFiltersChange({ ...filters, category: value as any })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Seleccionar categoría" />
               </SelectTrigger>
               <SelectContent>
@@ -59,7 +59,7 @@ export function EquipmentFiltersComponent({ filters, onFiltersChange, onClearFil
               value={filters.status}
               onValueChange={(value) => onFiltersChange({ ...filters, status: value as any })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Seleccionar estado" />
               </SelectTrigger>
               <SelectContent>
@@ -80,10 +80,10 @@ export function EquipmentFiltersComponent({ filters, onFiltersChange, onClearFil
               value={filters.sortBy}
               onValueChange={(value) => onFiltersChange({ ...filters, sortBy: value as any })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent >
                 <SelectItem value="name">Nombre</SelectItem>
                 <SelectItem value="category">Categoría</SelectItem>
                 <SelectItem value="price">Precio</SelectItem>
@@ -98,7 +98,7 @@ export function EquipmentFiltersComponent({ filters, onFiltersChange, onClearFil
               value={filters.sortOrder}
               onValueChange={(value) => onFiltersChange({ ...filters, sortOrder: value as any })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

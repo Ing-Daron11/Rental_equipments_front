@@ -60,8 +60,9 @@ export function EquipmentCard({
               />
             ) : null}
             <div
-              className={`w-full h-48 flex items-center justify-center ${equipment.imageUrl ? "hidden" : ""
-                }`}
+              className={`w-full h-48 flex items-center justify-center ${
+                equipment.imageUrl ? "hidden" : ""
+              }`}
             >
               <div className="text-center">
                 <div className="text-4xl mb-2">{categoryInfo.icon}</div>
@@ -126,22 +127,26 @@ export function EquipmentCard({
       </CardContent>
 
       {showActions && (
-        <CardFooter className="pt-0 gap-2">
+        <CardFooter className="pt-0 gap-2 flex-wrap">
           <Button
             variant="outline"
             size="sm"
             onClick={() => onViewDetails(equipment.id)}
-            className="flex-1 transition-all duration-200 hover:scale-105 hover:shadow-md"
+            className="flex-1"
+            name="view-details-button"
+            data-testid={`view-details-${equipment.id}`}
           >
             <Eye className="w-4 h-4 mr-2" />
             Ver detalles
           </Button>
+
           {onRent && (
             <Button
               size="sm"
               onClick={handleRent}
               disabled={!isAvailable}
-              className="flex-1 transition-all duration-200 hover:scale-105 hover:shadow-md disabled:hover:scale-100"
+              className="flex-1"
+              data-testid={`rent-button-${equipment.id}`}
             >
               <Calendar className="w-4 h-4 mr-2" />
               {isAvailable ? "Alquilar" : "No disponible"}
