@@ -28,7 +28,7 @@ test('Edit an equipment', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Contraseña' }).fill('daron123');
   await page.getByRole('button', { name: 'Iniciar sesión' }).click();
   await page.getByRole('link', { name: 'Equipos' }).click();
-  await page.locator('.rounded-lg > div:nth-child(3) > button').first().click();
+  await page.getByRole('button', { name: 'view-details-button' }).click();
   await page.getByRole('button', { name: 'Editar' }).click();
   await page.getByRole('textbox', { name: 'Ej: MacBook Pro 16' }).click();
   await page.getByRole('textbox', { name: 'Ej: MacBook Pro 16' }).fill('Aspire 3 prueba');
